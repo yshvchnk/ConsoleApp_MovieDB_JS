@@ -1,4 +1,4 @@
-/* Задание на урок:
+/* Задание на урок 1:
 
 1) Создать переменную numberOfFilms и в неё поместить ответ от пользователя на вопрос:
 'Сколько фильмов вы уже посмотрели?'
@@ -19,7 +19,20 @@
         'logan': '8.1'
     }
 
-Проверить, чтобы все работало без ошибок в консоли */
+Проверить, чтобы все работало без ошибок в консоли 
+
+Задание на урок 2:
+1) Автоматизировать вопросы пользователю про фильмы при помощи цикла
+2) Сделать так, чтобы пользователь не мог оставить ответ в виде пустой строки,
+отменить ответ или ввести название фильма длинее, чем 50 символов. Если это происходит - 
+возвращаем пользователя к вопросам опять. (К любой строке можно обратиться как 
+str.length - и получить её длину)
+3) При помощи условий проверить  personalMovieDB.count, и если он меньше 10 - вывести сообщение
+"Просмотрено довольно мало фильмов", если от 10 до 30 - "Вы классический зритель", а если больше - 
+"Вы киноман". А если не подошло ни к одному варианту - "Произошла ошибка"
+4) Потренироваться и переписать цикл еще двумя способами
+
+*/
 
 'use strict';
 
@@ -33,15 +46,26 @@ const personalMovieDatabase = {
     private: false
 };
 
-const latestFilm1 = prompt('What is the latest movie you watched?', ''),
-    rateFilm1 = +prompt('Rate it, please', ''),
-    latestFilm2 = prompt('What is the latest movie you watched?', ''),
-    rateFilm2 = +prompt('Rate it, please', '');
+for (let i = 0; i < 2; i++) {
+    const a = prompt('What is the latest movie you watched?', '');
+    const b = +prompt('Rate it, please', '');
+    if (a != null && b != null && a != '' && b != '' && a.length < 50) {
+        personalMovieDatabase.movies[a] = b;
+        console.log('done');
+    } else {
+        console.log('error');
+        i--;
+    }   
+}
 
-
-
-personalMovieDatabase.movies[latestFilm1] = rateFilm1;
-personalMovieDatabase.movies[latestFilm2] = rateFilm2;
+if (personalMovieDatabase.count < 10) {
+    console.log('You`ve watched small number of films');
+} else if (personalMovieDatabase.count >= 10 && personalMovieDatabase.count < 30) {
+    console.log('You`re classical viewer');
+} else if (personalMovieDatabase.count >=30) {
+    console.log('You`re real movie lover');
+} else {
+    console.log('Error');
+}
 
 console.log(personalMovieDatabase);
-
