@@ -1,15 +1,12 @@
 /* Задание на урок 1:
-
 1) Создать переменную numberOfFilms и в неё поместить ответ от пользователя на вопрос:
 'Сколько фильмов вы уже посмотрели?'
-
 2) Создать объект personalMovieDB и в него поместить такие свойства:
     - count - сюда передается ответ на первый вопрос
     - movies - в это свойство поместить пустой объект
     - actors - тоже поместить пустой объект
     - genres - сюда поместить пустой массив
     - privat - в это свойство поместить boolean(логическое) значение false
-
 3) Задайте пользователю по два раза вопросы:
     - 'Один из последних просмотренных фильмов?'
     - 'На сколько оцените его?'
@@ -18,7 +15,6 @@
     movies: {
         'logan': '8.1'
     }
-
 Проверить, чтобы все работало без ошибок в консоли 
 
 Задание на урок 2:
@@ -57,6 +53,36 @@ for (let i = 0; i < 2; i++) {
         i--;
     }   
 }
+
+// While cycle
+// let i = 0;
+// while (i < 2) {
+//     const a = prompt('What is the latest movie you watched?', '');
+//     const b = +prompt('Rate it, please', '');
+//     if (a != null && b != null && a != '' && b != '' && a.length < 50) {
+//         personalMovieDatabase.movies[a] = b;
+//         console.log('done');
+//     } else {
+//         console.log('error');
+//         i--;
+//     }   
+//     i++;
+// }
+
+// Do While Cycle
+// let i = 0;
+// do {
+//     i++;
+//     const a = prompt('What is the latest movie you watched?', '');
+//     const b = +prompt('Rate it, please', '');
+//     if (a != null && b != null && a != '' && b != '' && a.length < 50) {
+//         personalMovieDatabase.movies[a] = b;
+//         console.log('done');
+//     } else {
+//         console.log('error');
+//         i--;
+//     }
+// } while (i < 2);
 
 if (personalMovieDatabase.count < 10) {
     console.log('You`ve watched small number of films');
