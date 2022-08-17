@@ -28,12 +28,31 @@ str.length - и получить её длину)
 "Вы киноман". А если не подошло ни к одному варианту - "Произошла ошибка"
 4) Потренироваться и переписать цикл еще двумя способами
 
+Задание на урок 3:
+1) Первую часть задания повторить по уроку
+2) Создать функцию showMyDB, которая будет проверять свойство privat. Если стоит в позиции
+false - выводит в консоль главный объект программы
+3) Создать функцию writeYourGenres в которой пользователь будет 3 раза отвечать на вопрос 
+"Ваш любимый жанр под номером ${номер по порядку}". Каждый ответ записывается в массив данных
+genres
+P.S. Функции вызывать не обязательно 
 */
 
 'use strict';
 
-const numberOfFilms = +prompt('How many films have you watched?', '');
+let numberOfFilms;
 
+// Question about number of watched films
+function start() {
+    numberOfFilms = +prompt('How many films have you watched?', '');
+    while (numberOfFilms == '' || numberOfFilms == null || isNaN(numberOfFilms)) {
+        numberOfFilms = +prompt('How many films have you watched?', '');
+    }
+}
+
+start();
+
+// Main DB
 const personalMovieDatabase = {
     count: numberOfFilms,
     movies: {},
@@ -42,19 +61,23 @@ const personalMovieDatabase = {
     private: false
 };
 
-for (let i = 0; i < 2; i++) {
-    const a = prompt('What is the latest movie you watched?', '');
-    const b = +prompt('Rate it, please', '');
-    if (a != null && b != null && a != '' && b != '' && a.length < 50) {
-        personalMovieDatabase.movies[a] = b;
-        console.log('done');
-    } else {
-        console.log('error');
-        i--;
-    }   
+// Question about latest movies watched and records to DB
+function rememberMyFilms() {
+    for (let i = 0; i < 2; i++) {
+        const a = prompt('What is the latest movie you watched?', '');
+        const b = +prompt('Rate it, please', '');
+        if (a != null && b != null && a != '' && b != '' && a.length < 50) {
+            personalMovieDatabase.movies[a] = b;
+            console.log('done');
+        } else {
+            console.log('error');
+            i--;
+        }   
+    }
 }
 
-// While cycle
+rememberMyFilms();
+
 // let i = 0;
 // while (i < 2) {
 //     const a = prompt('What is the latest movie you watched?', '');
@@ -84,14 +107,37 @@ for (let i = 0; i < 2; i++) {
 //     }
 // } while (i < 2);
 
-if (personalMovieDatabase.count < 10) {
-    console.log('You`ve watched small number of films');
-} else if (personalMovieDatabase.count >= 10 && personalMovieDatabase.count < 30) {
-    console.log('You`re classical viewer');
-} else if (personalMovieDatabase.count >=30) {
-    console.log('You`re real movie lover');
-} else {
-    console.log('Error');
+
+// Detection persomal level movie watcher
+function detectPersonalLevel() {
+    if (personalMovieDatabase.count < 10) {
+        console.log('You`ve watched small number of films');
+    } else if (personalMovieDatabase.count >= 10 && personalMovieDatabase.count < 30) {
+        console.log('You`re classical viewer');
+    } else if (personalMovieDatabase.count >=30) {
+        console.log('You`re real movie lover');
+    } else {
+        console.log('Error');
+    }
 }
 
-console.log(personalMovieDatabase);
+detectPersonalLevel();
+
+// Show DB if not hidden
+function showMyDB(hidden) {
+    if (!hidden) {
+        console.log(personalMovieDatabase);
+    }
+}
+
+showMyDB(personalMovieDatabase.private);
+
+// Question about fave genres watched and records to DB
+function writeYourGenres() {
+    for (let i = 1; i <= 3; i++) {
+        personalMovieDatabase.genres[i - 1] = prompt(`Your favourite genre number ${i}`, '');
+    }
+}
+
+writeYourGenres();
+
