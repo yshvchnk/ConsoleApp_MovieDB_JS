@@ -36,108 +36,95 @@ false - выводит в консоль главный объект прогр�
 "Ваш любимый жанр под номером ${номер по порядку}". Каждый ответ записывается в массив данных
 genres
 P.S. Функции вызывать не обязательно 
+
+Задание на урок 4:
+1) У нас уже есть рабочее приложение, состоящее из отдельных функций. Представьте, что
+перед вами стоит задача переписать его так, чтобы все функции стали методами объекта personalMovieDB
+Такое случается в реальных продуктах при смене технологий или подхода к архитектуре программы
+2) Создать метод toggleVisibleMyDB, который при вызове будет проверять свойство privat. Если оно false - он
+переключает его в true, если true - переключает в false. Протестировать вместе с showMyDB.
+3) В методе writeYourGenres запретить пользователю нажать кнопку "отмена" или оставлять пустую строку. 
+Если он это сделал - возвращать его к этому же вопросу. После того, как все жанры введены - 
+при помощи метода forEach вывести в консоль сообщения в таком виде:
+"Любимый жанр #(номер по порядку, начиная с 1) - это (название из массива)"
+
 */
 
 'use strict';
 
-let numberOfFilms;
-
-// Question about number of watched films
-function start() {
-    numberOfFilms = +prompt('How many films have you watched?', '');
-    while (numberOfFilms == '' || numberOfFilms == null || isNaN(numberOfFilms)) {
-        numberOfFilms = +prompt('How many films have you watched?', '');
-    }
-}
-
-start();
 
 // Main DB
 const personalMovieDatabase = {
-    count: numberOfFilms,
+    count: 0,
     movies: {},
     actors: {},
     genres: [],
-    private: false
-};
-
-// Question about latest movies watched and records to DB
-function rememberMyFilms() {
-    for (let i = 0; i < 2; i++) {
-        const a = prompt('What is the latest movie you watched?', '');
-        const b = +prompt('Rate it, please', '');
-        if (a != null && b != null && a != '' && b != '' && a.length < 50) {
-            personalMovieDatabase.movies[a] = b;
-            console.log('done');
+    private: false,
+    start: function() {
+        personalMovieDatabase.count = +prompt('How many films have you watched?', '');
+        while (personalMovieDatabase.count == '' || personalMovieDatabase.count == null || isNaN(personalMovieDatabase.count)) {
+            personalMovieDatabase.count = +prompt('How many films have you watched?', '');
+        }
+    },
+    rememberMyFilms: function () {
+        for (let i = 0; i < 2; i++) {
+            const a = prompt('What is the latest movie you watched?', '').trim();
+            const b = +prompt('Rate it, please', '');
+            if (a != null && b != null && a != '' && b != '' && a.length < 50) {
+                personalMovieDatabase.movies[a] = b;
+                console.log('done');
+            } else {
+                console.log('error');
+                i--;
+            }
+        }
+    },
+    detectPersonalLevel: function() {
+        if (personalMovieDatabase.count < 10) {
+            console.log('You`ve watched small number of films');
+        } else if (personalMovieDatabase.count >= 10 && personalMovieDatabase.count < 30) {
+            console.log('You`re classical viewer');
+        } else if (personalMovieDatabase.count >=30) {
+            console.log('You`re real movie lover');
         } else {
-            console.log('error');
-            i--;
-        }   
+            console.log('Error');
+        }
+    },
+    showMyDB: function(hidden) {
+        if (!hidden) {
+            console.log(personalMovieDatabase);
+        }
+    },
+    toggleVisibleMyDB: function () {
+        if (personalMovieDatabase.private) {
+            personalMovieDatabase.private = false;
+        } else {
+            personalMovieDatabase.private = true;
+        }
+    },
+    writeYourGenres: function() {
+        // for (let i = 1; i <= 3; i++) {
+        //     let genre = prompt(`Your favourite genre number ${i}`, '');
+        //     if (genre === '' || genre === null) {
+        //         console.log('Wrong data or no data');
+        //         i--;
+        //     } else {
+        //         personalMovieDatabase.genres[i - 1] = genre;
+        //     }
+        // }
+        for (let i = 1; i < 2; i++) {
+            let genre = prompt(`Write your favourite genres number using ,`).toLowerCase();
+            if (genre === '' || genre === null) {
+                console.log('Wrong data or no data');
+                i--;
+            } else {
+                personalMovieDatabase.genre = genre.split(', ');
+                personalMovieDatabase.genre.sort();
+            }
+        }
+        personalMovieDatabase.genre.forEach((item, i) => {
+            console.log(`Favourite genre ${i + 1} is ${item}`);
+        });
     }
-}
-
-rememberMyFilms();
-
-// let i = 0;
-// while (i < 2) {
-//     const a = prompt('What is the latest movie you watched?', '');
-//     const b = +prompt('Rate it, please', '');
-//     if (a != null && b != null && a != '' && b != '' && a.length < 50) {
-//         personalMovieDatabase.movies[a] = b;
-//         console.log('done');
-//     } else {
-//         console.log('error');
-//         i--;
-//     }   
-//     i++;
-// }
-
-// Do While Cycle
-// let i = 0;
-// do {
-//     i++;
-//     const a = prompt('What is the latest movie you watched?', '');
-//     const b = +prompt('Rate it, please', '');
-//     if (a != null && b != null && a != '' && b != '' && a.length < 50) {
-//         personalMovieDatabase.movies[a] = b;
-//         console.log('done');
-//     } else {
-//         console.log('error');
-//         i--;
-//     }
-// } while (i < 2);
-
-
-// Detection persomal level movie watcher
-function detectPersonalLevel() {
-    if (personalMovieDatabase.count < 10) {
-        console.log('You`ve watched small number of films');
-    } else if (personalMovieDatabase.count >= 10 && personalMovieDatabase.count < 30) {
-        console.log('You`re classical viewer');
-    } else if (personalMovieDatabase.count >=30) {
-        console.log('You`re real movie lover');
-    } else {
-        console.log('Error');
-    }
-}
-
-detectPersonalLevel();
-
-// Show DB if not hidden
-function showMyDB(hidden) {
-    if (!hidden) {
-        console.log(personalMovieDatabase);
-    }
-}
-
-showMyDB(personalMovieDatabase.private);
-
-// Question about fave genres watched and records to DB
-function writeYourGenres() {
-    for (let i = 1; i <= 3; i++) {
-        personalMovieDatabase.genres[i - 1] = prompt(`Your favourite genre number ${i}`, '');
-    }
-}
-
-writeYourGenres();
+};
 
